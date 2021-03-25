@@ -3,13 +3,19 @@ package database;
 import model.Product;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ShopDatabase {
-    private List<Product> products;
+    private List<Product> products = new ArrayList<Product>();
 
     public Product getProductById(int id){
-        throw new NotImplementedException();
+        for (Product p : products){
+            if (p.getId() == id){
+                return p;
+            }
+        }
+        return null;
     }
 
     public List<Product> getProductsByName(String name){
