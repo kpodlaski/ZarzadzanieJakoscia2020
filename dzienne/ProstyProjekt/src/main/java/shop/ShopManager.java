@@ -4,6 +4,7 @@ import database.ShopDatabase;
 import model.Product;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ShopManager {
@@ -12,10 +13,12 @@ public class ShopManager {
 
     public ShopManager(ShopDatabase db){
         this.db=db;
+        this.cart = new ArrayList<>();
     }
 
     public boolean addProductToCart(int productId){
-        throw new NotImplementedException();
+        Product p = db.getProductById(productId);
+        return cart.add(p);
     }
 
     public boolean addProductToCart(String productName){
@@ -43,10 +46,10 @@ public class ShopManager {
     }
 
     public List<Product> showCart(){
-        throw new NotImplementedException();
+        return this.cart;
     }
 
     public boolean clearCart(){
-        throw new NotImplementedException();
+        throw new RuntimeException("Not implemented yet");
     }
 }

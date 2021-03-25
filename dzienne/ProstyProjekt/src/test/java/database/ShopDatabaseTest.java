@@ -39,6 +39,8 @@ class ShopDatabaseTest {
     void getProductById() {
         Product p = testedDb.getProductById(1);
         assertEquals("Car",p.getName());
+        p = testedDb.getProductById(12);
+        assertNull(p);
     }
 
     @Test
