@@ -22,7 +22,13 @@ public class ShopManager {
     }
 
     public boolean addProductToCart(String productName){
-        throw new NotImplementedException();
+        List<Product> products = db.getProductsByName(productName);
+        for (Product p : products){
+            if (!cart.add(p)){
+                return false;
+            }
+        }
+        return true;
     }
 
     public boolean addProductToCart(Product product){
@@ -34,7 +40,7 @@ public class ShopManager {
     }
 
     public boolean removeFromCart(Product product){
-        throw new NotImplementedException();
+        return cart.remove(product);
     }
 
     public boolean removeFromCart(int productId){
@@ -42,7 +48,17 @@ public class ShopManager {
     }
 
     public boolean removeFromCart(String productName){
-        throw new NotImplementedException();
+        List<Product> toRemove = new ArrayList<>();
+        for (Product p : cart){
+            if (p.getName().equals(productName)){
+                toRemove.add(p);
+            }
+        }
+        if (toRemove.size()==0) return false;
+        for (Product p : toRemove){
+            if(!removeFromCart(p)) return false;
+        }
+        return true;
     }
 
     public List<Product> showCart(){
