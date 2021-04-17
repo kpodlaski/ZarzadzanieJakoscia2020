@@ -27,21 +27,21 @@ public class ShopManagerTest {
     public void createEmptyCart() {
         db = mock(ShopDatabase.class);
         testObject = new ShopManager(db);
-        Product p = new Product(lastId++, "Doll", "d.jpg", 33.2);
-        when(db.getProductById(1)).thenReturn(p);
+
     }
 
     @Given("I have a non empty Cart")
     public void createNonEmptyCart() {
         createEmptyCart();
-        testObject.addProductToCart(1);
-        lastAdded = testObject.showCart().get(0);
+        addSingleProductToCart();
     }
 
     @When("I add a new Product into a Cart")
     public void addSingleProductToCart() {
+        Product p = new Product(lastId++, "Doll", "d.jpg", 33.2);
+        when(db.getProductById(lastId)).thenReturn(p);
         testObject.addProductToCart(lastId);
-        lastAdded = db.getProductById(lastId);
+        lastAdded = p;
     }
 
     @When("I erase a last Product form a Cart")
