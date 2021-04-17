@@ -15,29 +15,60 @@ import static org.mockito.Mockito.never;
 
 public class ShopManagerTest {
 
-    @Mock
-    ShopDatabase db;
-
     ShopManager testObject;
 
+    @Mock
+    ShopDatabase db;
+    Product lastAdded = null;
+    int lastId=0;
+
+
     @Given("I have an empty Cart")
-    public void createEmptyCart(){
+    public void createEmptyCart() {
         db = mock(ShopDatabase.class);
-        testObject= new ShopManager(db);
-        Product p = new Product(1,"Doll","d.jpg",33.2);
+        testObject = new ShopManager(db);
+        Product p = new Product(lastId++, "Doll", "d.jpg", 33.2);
         when(db.getProductById(1)).thenReturn(p);
     }
 
-   @When("I add a new Product into a Cart")
-   public void addSingleProductToCart(){
+    @Given("I have a non empty Cart")
+    public void createNonEmptyCart() {
+        createEmptyCart();
         testObject.addProductToCart(1);
-   }
+        lastAdded = testObject.showCart().get(0);
+    }
 
-   @Then("I obtain Cart with lenght {int}")
-   public void checkLenghtOfCart(int expectedSize){
+    @When("I add a new Product into a Cart")
+    public void addSingleProductToCart() {
+        testObject.addProductToCart(lastId);
+        lastAdded = db.getProductById(lastId);
+    }
+
+    @When("I erase a last Product form a Cart")
+    public void eraseLastProductFromCart(){
+    }
+
+    @Then("I obtain Cart with lenght {int}")
+    public void checkLenghtOfCart(int expectedSize) {
         int size = testObject.showCart().size();
-        assertEquals(expectedSize,size);
-       verify(db,times(1)).getProductById(1);
-       verify(db,never()).getProductsByName(anyString());
-   }
+        assertEquals(expectedSize, size);
+    }
+
+    @Then("Database was asked {int} times about product with id {int}")
+    public void checkQueriesToDb(int noOfTimes, int onProduct){
+        verify(db, times(noOfTimes)).getProductById(onProduct);
+        verify(db, never()).getProductsByName(anyString());
+    }
+
+    @Then("I obtain an empty Cart")
+    public void checkIfCartIsEmpty(){
+        checkLenghtOfCart(0);
+    }
+
+    @Then("I obtain the same Product on last place in Cart")
+    public void checkTheLastProduct(){
+        int size = testObject.showCart().size();
+        Product p = testObject.showCart().get(size-1);
+        assertEquals(lastAdded,p);
+    }
 }
