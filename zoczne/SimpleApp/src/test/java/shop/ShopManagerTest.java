@@ -12,6 +12,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.*;
 
 public class ShopManagerTest {
@@ -23,7 +24,6 @@ public class ShopManagerTest {
 
     @BeforeEach
     public void initTestObject(){
-        System.out.println("Before");
         db = mock(ShopDatabase.class);
         testObject = new ShopManager(db);
     }
@@ -44,4 +44,19 @@ public class ShopManagerTest {
         verify(db,never()).getProductsByName(anyString());
     }
 
+
+    @Test
+    public void testAdToCartNotExistingProduct() throws NoSuchFieldException, IllegalAccessException {
+        Product p = new Product(1,"Doll","doll.jpg",13.35);
+        when(db.getProductById(1)).thenReturn(p);
+        boolean result = testObject.addProductToCart(2);
+        assertFalse(result);
+        Field field = testObject.getClass().getDeclaredField("cart");
+        field.setAccessible(true);
+        List<Product> cart = (List<Product>) field.get(testObject);
+        assertEquals(0,cart.size());
+        field.setAccessible(false);
+        verify(db,times(1)).getProductById(2);
+        verify(db,never()).getProductsByName(anyString());
+    }
 }

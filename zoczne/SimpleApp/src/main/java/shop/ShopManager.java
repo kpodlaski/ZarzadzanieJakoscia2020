@@ -18,11 +18,14 @@ public class ShopManager {
 
     public boolean addProductToCart(int productId){
         Product p = db.getProductById(productId);
+        if (p == null) return false;
         return cart.add(p);
     }
 
     public boolean addProductToCart(String productName){
         List<Product> products = db.getProductsByName(productName);
+        if (products == null || products.size() <1)
+            return false;
         for (Product p : products){
             if (!cart.add(p)){
                 return false;
