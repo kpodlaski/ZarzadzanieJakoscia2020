@@ -5,10 +5,11 @@ Feature: Testy ShopManager
     When I add a new Product into a Cart
     Then I obtain Cart with lenght 1
 
-  Scenario: Add single product to a Cart
+  Scenario: Remove element from a Cart
     Given I have an empty Cart
     When I add a new Product into a Cart
-    Then I obtain Cart with lenght 1
+    When I erase a last Product form a Cart
+    Then I obtain an empty Cart
 
   Scenario: Add new product to a Cart
     Given I have a non empty Cart
