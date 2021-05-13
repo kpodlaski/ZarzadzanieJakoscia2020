@@ -1,4 +1,3 @@
-import biz.AuthenticationManager;
 import db.dao.DAO;
 import db.dao.impl.SQLiteDB;
 import model.Account;

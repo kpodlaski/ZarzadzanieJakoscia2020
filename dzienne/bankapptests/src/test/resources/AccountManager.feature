@@ -50,6 +50,8 @@ Examples:
     |user   |srcAcc |srcAmount  |dstAcc |dstAmount  |amount|
     |Tomasz |1      |200        |2      |100        |-158.2|
     |Tomasz |1      |200        |3      |100        |201   |
+    |Tomasz |1      |200        |3      |100        |0     |
+    |Tomasz |1      |200        |3      |100        |0.0   |
 
 Scenario Outline: User is not authorize to withdraw
     Given We have user with name "<user1>"
@@ -88,3 +90,18 @@ Scenario Outline: User is not authorize to withdraw from destination account
     Examples:
       |user1  |srcAcc |srcAmount  |dstAcc |dstAmount  |amount |user2 |expSrc  |expDst |
       |Tomasz |1      |200        |2      |100        |101.2  |Maria |98.8    |201.2  |
+
+  Scenario: Database malfunction
+    Given "<user1>" has account number: <srcAcc> with amount: <srcAmount>
+    Given "<user2>" has account number: <dstAcc> with amount: <datAmount>
+    Given All database operations are unsucessfull
+    Given Users can operate on own accounts only
+    When "<user1>" make internal payment from acc: <srcAcc> to acc: <dstAcc> amount <amount>
+    #DB falied so no sense to ask for account states
+    #Then Account <srcAcc> have <srcAmount>
+    #Then Account <dstAcc> have <dstAmount>
+    Then Operation is unsuccessful
+    Then Expect updates only on proper accounts
+      |<srcAcc>|<dstAcc>|
+    Then Error was logged properly
+    Then "EXCEPTION" ??
