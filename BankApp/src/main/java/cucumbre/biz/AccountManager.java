@@ -1,7 +1,6 @@
-package biz;
+package cucumbre.biz;
 
 import db.dao.DAO;
-import db.dao.impl.DAOImpl;
 import db.dao.impl.SQLiteDB;
 import model.Account;
 import model.Operation;

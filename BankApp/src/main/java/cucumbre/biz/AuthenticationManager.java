@@ -1,4 +1,4 @@
-package biz;
+package cucumbre.biz;
 
 
 import db.dao.DAO;

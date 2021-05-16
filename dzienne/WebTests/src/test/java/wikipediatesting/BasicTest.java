@@ -19,11 +19,11 @@ public class BasicTest {
         System.setProperty(
                 "webdriver.gecko.driver",
                 "C:\\Programowanie\\Tools\\GekkoDriver\\Firefox\\geckodriver.exe");
-        //wD = new FirefoxDriver();
+        wD = new FirefoxDriver();
         System.setProperty(
                 "webdriver.chrome.driver",
                 "C:\\Programowanie\\Tools\\GekkoDriver\\Chrome\\chromedriver.exe");
-        wD = new ChromeDriver();
+        //wD = new ChromeDriver();
 
     }
 
