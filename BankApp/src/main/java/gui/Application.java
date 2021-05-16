@@ -1,6 +1,6 @@
 package gui;
 
-import cucumbre.biz.AccountManager;
+import biz.AccountManager;
 import model.exceptions.UserUnnkownOrBadPasswordException;
 
 import javax.swing.*;
