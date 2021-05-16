@@ -1,4 +1,4 @@
-package cucumbre.biz;
+package biz;
 
 import db.dao.DAO;
 import db.dao.impl.SQLiteDB;
